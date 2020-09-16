@@ -1,0 +1,50 @@
+.control {
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timeline {
+    display: flex;
+    align-items: center;
+}
+
+.start-time,
+.end-time {
+    margin: 0 10px;
+}
+
+input {
+    -webkit-appearance: none;
+    outline: none;
+    background: #000000;
+    cursor: pointer;
+    overflow: hidden;
+    width: 380px;
+}
+
+input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 5px;
+    width: 5px;
+    background: #a64e6d;
+    box-shadow: -100vw 0 0 100vw #a64e6d;
+}
+
+.play,
+.pause {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+
+.pause {
+    background: url('./pause.png') 0 0 / contain no-repeat;
+}
+
+.play {
+    background: url('./play.png') 0 0 / contain no-repeat;
+}
