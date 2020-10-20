@@ -46,19 +46,39 @@
         totaltime = audioElem.duration;
     }
 
+    let s = 0;
 
     function onTimeUpdate() {
 
         startTimeELem.innerHTML = getDuration(audioElem.currentTime);
         progressBarElem.value = audioElem.currentTime;
         currenttime = audioElem.currentTime;
-        frames = (currenttime / (totaltime / (totalframe - 1)));
+        // if (currenttime <= route_f[s][2] + 1) {
+        //     preframe = s;
+        //     postframe = s + 1;
+        //     interval_down = route_f[postframe][2] - route_f[preframe][2];
+        //     interval_up = currenttime - route_f[preframe][2];
+        //     percent = interval_up / interval_down;
+        //     dlat = parseFloat(route_f[preframe][0]) + ((parseFloat(route_f[postframe][0]) - parseFloat(route_f[preframe][0])) * percent);
+        //     dlon = parseFloat(route_f[preframe][1]) + ((parseFloat(route_f[postframe][1]) - parseFloat(route_f[preframe][1])) * percent);
+        // } else {
+        //     s += 1
+        //     preframe = s;
+        //     postframe = s + 1;
+        //     interval_down = route_f[postframe][2] - route_f[preframe][2];
+        //     interval_up = currenttime - route_f[preframe][2];
+        //     percent = interval_up / interval_down;
+        //     dlat = parseFloat(route_f[preframe][0]) + ((parseFloat(route_f[postframe][0]) - parseFloat(route_f[preframe][0])) * percent);
+        //     dlon = parseFloat(route_f[preframe][1]) + ((parseFloat(route_f[postframe][1]) - parseFloat(route_f[preframe][1])) * percent);
+        // }
+        // console.log(percent);
+        frames = (currenttime * ((totalframe) / totaltime));
         intervaltime = frames % 1;
         preframe = parseInt(frames - intervaltime);
         postframe = parseInt(preframe + 1);
-        dlat = parseFloat(route_f[preframe][0]) + ((parseFloat(route_f[postframe][0]) - parseFloat(route_f[preframe][0])) * intervaltime);
-        dlon = parseFloat(route_f[preframe][1]) + ((parseFloat(route_f[postframe][1]) - parseFloat(route_f[preframe][1])) * intervaltime);
-        console.log(dlat, dlon);
+        dlat = parseFloat(route_f[preframe][0]) + (parseFloat(route_f[postframe][0]) - parseFloat(route_f[preframe][0])) * intervaltime;
+        dlon = parseFloat(route_f[preframe][1]) + (parseFloat(route_f[postframe][1]) - parseFloat(route_f[preframe][1])) * intervaltime;
+        console.log(currenttime, frames, preframe, postframe, intervaltime);
         lat_tr.innerHTML = dlat.toString();
         lon_tr.innerHTML = dlon.toString();
         time_tr.innerHTML = getDuration(audioElem.currentTime);
@@ -122,6 +142,9 @@
         botton_re.style.display = "block"
     }
 
+    function dates() {
+
+    }
 
     function run() {
         playBtnElem.addEventListener('click', onClick);
@@ -140,18 +163,19 @@
                 header: true,
                 complete: function(results) {
                     logfile = results.data;
+                    // d1_list = logfile[0].day.split('.')
+                    // var d1 = new Date(d1_list[0], d1_list[1], d1_list[2], logfile[0].time_h, logfile[0].time_m, logfile[0].time_s);
+                    // d1 = d1 / 1000;
                     let route = [];
                     for (let index = 0; index < logfile.length; index++) {
                         if (logfile[index].lat && logfile[index].lon != '') {
+                            // d_list = logfile[index].day.split('.')
+                            // var d = new Date(d_list[0], d_list[1], d_list[2], logfile[index].time_h, logfile[index].time_m, logfile[index].time_s);
+                            // d = (d / 1000) - d1;
                             route.push([logfile[index].lat, logfile[index].lon])
-                                // L.circleMarker([logfile[index].lat, logfile[index].lon], {
-                                //     color: 'green',
-                                //     fillOpacity: 1,
-                                //     radius: 5
-                                // }).addTo(route_layer_p);
                         }
                     }
-                    // console.log(route);
+                    console.log(route)
                     totalframe = route.length;
                     route_f = route;
                     route_layer.clearLayers();
